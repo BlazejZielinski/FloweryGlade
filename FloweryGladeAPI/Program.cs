@@ -1,5 +1,6 @@
 using FloweryGladeAPI;
 using FloweryGladeAPI.Entities;
+using FloweryGladeAPI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NLog.Web;
 using System.Reflection;
@@ -23,7 +24,7 @@ builder.Host.UseNLog();
 builder.Services.AddScoped<FloweryGladeSeeder>();
 builder.Services.AddDbContext<FlowerShopDbContext>();
 builder.Services.AddAutoMapper(typeof(Program));
-//builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddScoped<IFlowerShopService,FlowerShopService>();
 
 var app = builder.Build();
 
