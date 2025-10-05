@@ -6,7 +6,7 @@ namespace FloweryGladeAPI.Models
     public class FlowerShopDTO
     {
         // FlowerShop
-        //public int FlowerShopID { get; set; }
+        public int FlowerShopID { get; set; }
 
         [Required]
         [MaxLength(25)]

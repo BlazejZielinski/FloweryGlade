@@ -10,6 +10,7 @@ namespace FloweryGladeAPI.Services
         int Create(CreateFlowerShopDto dto);
         IEnumerable<FlowerShopDTO> GetAll();
         FlowerShopDTO GetByID(int id);
+        bool Delete(int id);
     }
 
     public class FlowerShopService : IFlowerShopService
@@ -36,6 +37,20 @@ namespace FloweryGladeAPI.Services
 
             var result = _mapper.Map<FlowerShopDTO>(flowerShopsByID);
             return result;
+        }
+
+        public bool Delete(int id)
+        {
+            var flowerShop = _dbContext
+                .FlowerShops
+                .FirstOrDefault(f => f.FlowerShopID == id);
+
+            if(flowerShop == null) {  return false; }
+            _dbContext.FlowerShops.Remove(flowerShop);
+            _dbContext.SaveChanges();
+
+
+            return true;
         }
 
         public IEnumerable<FlowerShopDTO> GetAll()

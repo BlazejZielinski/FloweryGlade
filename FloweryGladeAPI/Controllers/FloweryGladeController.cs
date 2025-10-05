@@ -18,6 +18,7 @@ namespace FloweryGladeAPI.Controllers
            _flowerShopService = flowerShopService;
         }
 
+        // GetAll shops
         [HttpGet]
         public ActionResult<IEnumerable<FlowerShopDTO>> GetAll()
         {
@@ -27,6 +28,8 @@ namespace FloweryGladeAPI.Controllers
 
 
         }
+
+        // GetByID shop
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<FlowerShopDTO>> GetByID([FromRoute]int id)
         {
@@ -38,6 +41,7 @@ namespace FloweryGladeAPI.Controllers
             return Ok(flowerShopByID);
         }
 
+        // creating new shop
         [HttpPost]
         public ActionResult CreateFlowerShop([FromBody] CreateFlowerShopDto dto)
         {
@@ -49,6 +53,19 @@ namespace FloweryGladeAPI.Controllers
             var id = _flowerShopService.Create(dto);
 
             return Created($"api/floweryGlade/{id}", null);
+        }
+
+        // deleting shop by ID
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute]int id)
+        {
+            var isDeletedByID = _flowerShopService.Delete(id);
+
+            if (isDeletedByID)
+            {
+                return NoContent();
+            }
+            return NotFound("Not fount shop with this ID");
         }
     }
 }
