@@ -67,5 +67,22 @@ namespace FloweryGladeAPI.Controllers
             }
             return NotFound("Not fount shop with this ID");
         }
+
+        [HttpPut("{id}")]
+        public ActionResult Update([FromBody]UpdateFlowerShopDto updateDto, [FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var isUpdated = _flowerShopService.Update(id, updateDto);
+            if (!isUpdated)
+            {
+                return NotFound("Resource not found!");
+            }
+            return Ok("Resource updated");
+
+        }
     }
 }

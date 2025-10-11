@@ -11,6 +11,7 @@ namespace FloweryGladeAPI.Services
         IEnumerable<FlowerShopDTO> GetAll();
         FlowerShopDTO GetByID(int id);
         bool Delete(int id);
+        bool Update(int id, UpdateFlowerShopDto updateDto);
     }
 
     public class FlowerShopService : IFlowerShopService
@@ -51,6 +52,29 @@ namespace FloweryGladeAPI.Services
 
 
             return true;
+        }
+
+        public bool Update(int id, UpdateFlowerShopDto updateDto)
+        {
+            var flowerShopsByID = _dbContext
+                .FlowerShops
+                .Include(i => i.Address)      // added table named "Address"
+                .Include(i => i.Flower)       // added table named "Flower"
+                .FirstOrDefault(f => f.FlowerShopID == id);
+
+            if (flowerShopsByID == null)
+            {
+                return false;
+            }
+
+            flowerShopsByID.Name = updateDto.Name;
+            flowerShopsByID.Address.Street = updateDto.Street;
+            flowerShopsByID.Address.HouseNo = updateDto.HouseNumber;
+
+            _dbContext.SaveChanges();
+
+            return true; 
+
         }
 
         public IEnumerable<FlowerShopDTO> GetAll()
