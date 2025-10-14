@@ -18,11 +18,14 @@ namespace FloweryGladeAPI.Services
     {
         private readonly FlowerShopDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<FlowerShopService> _logger;
 
-        public FlowerShopService(FlowerShopDbContext dbContext, IMapper mapper)
+        public FlowerShopService(FlowerShopDbContext dbContext, IMapper mapper, 
+            ILogger<FlowerShopService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
         public FlowerShopDTO GetByID(int id)
         {
@@ -42,6 +45,8 @@ namespace FloweryGladeAPI.Services
 
         public bool Delete(int id)
         {
+            _logger.LogError($"FlowerShop with id: {id} DELETE action invoked");
+            //_logger.LogWarning($"FlowerShop with id: {id} DELETE action invoked");
             var flowerShop = _dbContext
                 .FlowerShops
                 .FirstOrDefault(f => f.FlowerShopID == id);
