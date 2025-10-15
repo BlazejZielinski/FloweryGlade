@@ -1,5 +1,6 @@
 using FloweryGladeAPI;
 using FloweryGladeAPI.Entities;
+using FloweryGladeAPI.Middleware;
 using FloweryGladeAPI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NLog.Web;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<FloweryGladeSeeder>();
 builder.Services.AddDbContext<FlowerShopDbContext>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IFlowerShopService,FlowerShopService>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 var app = builder.Build();
 
@@ -36,8 +38,9 @@ var app = builder.Build();
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<FloweryGladeSeeder>();
 seeder.Seed();
-// Configure the HTTP request pipeline.
 
+// Configure the HTTP request pipeline.
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
