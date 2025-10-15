@@ -34,10 +34,7 @@ namespace FloweryGladeAPI.Controllers
         public ActionResult<IEnumerable<FlowerShopDTO>> GetByID([FromRoute]int id)
         {
             var flowerShopByID = _flowerShopService.GetByID(id);
-            if(flowerShopByID is null)
-            {
-                return NotFound("Nie ma takiego zasobu");
-            }
+            
             return Ok(flowerShopByID);
         }
 
@@ -59,13 +56,10 @@ namespace FloweryGladeAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute]int id)
         {
-            var isDeletedByID = _flowerShopService.Delete(id);
+            _flowerShopService.Delete(id);
 
-            if (isDeletedByID)
-            {
-                return NoContent();
-            }
-            return NotFound("Not fount shop with this ID");
+            
+            return NoContent();
         }
 
         [HttpPut("{id}")]
@@ -76,11 +70,7 @@ namespace FloweryGladeAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var isUpdated = _flowerShopService.Update(id, updateDto);
-            if (!isUpdated)
-            {
-                return NotFound("Resource not found!");
-            }
+            _flowerShopService.Update(id, updateDto);
             return Ok("Resource updated");
 
         }

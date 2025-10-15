@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FloweryGladeAPI.Entities;
+using FloweryGladeAPI.Exceptions;
 using FloweryGladeAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +11,8 @@ namespace FloweryGladeAPI.Services
         int Create(CreateFlowerShopDto dto);
         IEnumerable<FlowerShopDTO> GetAll();
         FlowerShopDTO GetByID(int id);
-        bool Delete(int id);
-        bool Update(int id, UpdateFlowerShopDto updateDto);
+        void Delete(int id);
+        void Update(int id, UpdateFlowerShopDto updateDto);
     }
 
     public class FlowerShopService : IFlowerShopService
@@ -36,14 +37,14 @@ namespace FloweryGladeAPI.Services
                 .FirstOrDefault(f => f.FlowerShopID == id);
             if (flowerShopsByID == null)
             {
-                return null;
+                throw new NotFoundException($"Resource with id: {id} not found");
             }
 
             var result = _mapper.Map<FlowerShopDTO>(flowerShopsByID);
             return result;
         }
 
-        public bool Delete(int id)
+        public void Delete(int id)
         {
             _logger.LogError($"FlowerShop with id: {id} DELETE action invoked");
             //_logger.LogWarning($"FlowerShop with id: {id} DELETE action invoked");
@@ -51,15 +52,17 @@ namespace FloweryGladeAPI.Services
                 .FlowerShops
                 .FirstOrDefault(f => f.FlowerShopID == id);
 
-            if(flowerShop == null) {  return false; }
+            if(flowerShop == null) {
+                throw new NotFoundException($"Resource with id: {id} not found"); 
+            }
             _dbContext.FlowerShops.Remove(flowerShop);
             _dbContext.SaveChanges();
 
 
-            return true;
+            
         }
 
-        public bool Update(int id, UpdateFlowerShopDto updateDto)
+        public void Update(int id, UpdateFlowerShopDto updateDto)
         {
             var flowerShopsByID = _dbContext
                 .FlowerShops
@@ -69,7 +72,7 @@ namespace FloweryGladeAPI.Services
 
             if (flowerShopsByID == null)
             {
-                return false;
+                throw new NotFoundException($"Resource with id: {id} not found");
             }
 
             flowerShopsByID.Name = updateDto.Name;
@@ -78,7 +81,7 @@ namespace FloweryGladeAPI.Services
 
             _dbContext.SaveChanges();
 
-            return true; 
+            
 
         }
 
