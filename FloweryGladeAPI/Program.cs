@@ -26,6 +26,7 @@ builder.Services.AddScoped<FloweryGladeSeeder>();
 builder.Services.AddDbContext<FlowerShopDbContext>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IFlowerShopService,FlowerShopService>();
+builder.Services.AddScoped<IFlowerService, FlowerService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSwaggerGen();
 

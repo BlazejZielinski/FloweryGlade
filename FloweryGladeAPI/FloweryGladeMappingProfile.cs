@@ -28,6 +28,8 @@ namespace FloweryGladeAPI
                         HouseNo = dto.HouseNumber
                     }));
 
+            CreateMap<CreateFlowerDto, Flowers>();
+
         }
     }
 }

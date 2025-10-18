@@ -1,11 +1,12 @@
-﻿namespace FloweryGladeAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FloweryGladeAPI.Models
 {
-    public class Flowers
+    public class CreateFlowerDto
     {
-        public int ID { get; set; }
+        [Required]
         public string FlowerName { get; set; }
         public double FlowerPrice { get; set; }
         public int FlowerShopID { get; set; }
-        //public FlowerShop FlowerShop { get; set; }
     }
 }
