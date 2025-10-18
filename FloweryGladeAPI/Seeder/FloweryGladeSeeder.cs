@@ -1,4 +1,5 @@
 ﻿using FloweryGladeAPI.Entities;
+using FloweryGladeAPI.Models;
 
 namespace FloweryGladeAPI
 {
@@ -25,6 +26,7 @@ namespace FloweryGladeAPI
 
         private IEnumerable<FlowerShop> GetFlowerShops()
         {
+           
             var flowerShops = new List<FlowerShop>()
             {
                 new FlowerShop()
@@ -32,7 +34,7 @@ namespace FloweryGladeAPI
                     //FlowerShopID = 1,
                     Name = "Goździkowo",
                     PhoneNo = "896462031",
-                    //AddressID = 01,
+                    //AddressID = 01,0
                     Address =new Address()
                     {
                         City = "Warszawa",
@@ -129,5 +131,7 @@ namespace FloweryGladeAPI
             };
             return flowerShops;
         }
+
+        
     }
 }

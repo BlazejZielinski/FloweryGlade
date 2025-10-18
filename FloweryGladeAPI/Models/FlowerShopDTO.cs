@@ -20,6 +20,6 @@ namespace FloweryGladeAPI.Models
         public string? HouseNumber { get; set; }
 
         // Flowers
-        public List<Flowers>? Flowers { get; set; }
+        public List<Flowers>? Flower { get; set; }
     }
 }

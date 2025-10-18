@@ -27,6 +27,7 @@ builder.Services.AddDbContext<FlowerShopDbContext>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IFlowerShopService,FlowerShopService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -42,6 +43,11 @@ seeder.Seed();
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json","FloweryGlade Api");
+});
 
 app.UseAuthorization();
 
